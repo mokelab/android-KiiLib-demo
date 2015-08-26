@@ -39,7 +39,6 @@ public class TitleFragment extends Fragment implements LoginApp.UI, SignupApp.UI
     @Bind(R.id.edit_signup_email) EditText mSignupEmail;
     @Bind(R.id.edit_signup_password) EditText mSignupPassword;
 
-    private KiiAppAPI mAppAPI;
     private LoginApp mLoginApp;
     private SignupApp mSignupApp;
 
@@ -67,9 +66,9 @@ public class TitleFragment extends Fragment implements LoginApp.UI, SignupApp.UI
         super.onActivityCreated(savedInstanceState);
 
         MainActivity activity = (MainActivity) getActivity();
-        mAppAPI = activity.getAppAPI();
-        mLoginApp = new LoginAppImpl(new UIHolderImpl<>(this), mAppAPI);
-        mSignupApp = new SignupAppImpl(new UIHolderImpl<>(this), mAppAPI);
+        KiiAppAPI appAPI = activity.getAppAPI();
+        mLoginApp = new LoginAppImpl(new UIHolderImpl<>(this), appAPI);
+        mSignupApp = new SignupAppImpl(new UIHolderImpl<>(this), appAPI);
     }
 
     @Override
