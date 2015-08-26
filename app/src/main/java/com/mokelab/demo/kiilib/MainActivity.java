@@ -1,37 +1,50 @@
 package com.mokelab.demo.kiilib;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.mokelab.demo.kiilib.page.title.TitleFragment;
+import com.squareup.okhttp.OkHttpClient;
+
+import jp.fkmsoft.android.framework.util.FragmentUtils;
+import jp.fkmsoft.libs.kiilib.apis.impl.KiiAppAPI;
+import jp.fkmsoft.libs.kiilib.client.KiiHTTPClient;
+import jp.fkmsoft.libs.kiilib.entities.KiiContext;
+import jp.fkmsoft.libs.kiilib.entities.android.AndroidKiiContext;
+import jp.fkmsoft.libs.kiilib.okhttp.KiiOkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
+
+    private KiiContext mKiiContext;
+    private KiiAppAPI mAppAPI;
+    private OkHttpClient mClient;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        mClient = new OkHttpClient();
+        mHandler = new Handler();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        mKiiContext = new AndroidKiiContext(Constants.APP_ID, Constants.APP_KEY, Constants.BASE_URL) {
+            @Override
+            public KiiHTTPClient getHttpClient() {
+                return new KiiOkHttpClient(mClient, this, mHandler);
+            }
+        };
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        mAppAPI = new KiiAppAPI(mKiiContext);
+
+        if (savedInstanceState == null) {
+            FragmentUtils.toNextFragment(getSupportFragmentManager(), R.id.container,
+                    TitleFragment.newInstance(), false);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    public KiiAppAPI getAppAPI() {
+        return mAppAPI;
     }
 }

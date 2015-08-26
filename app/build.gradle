@@ -19,8 +19,26 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url  "http://dl.bintray.com/fkm/maven" 
+    }
+}
+
+configurations {
+    compile.exclude group: 'org.json', module: 'json'
+    androidTestCompile.exclude group: 'org.json', module: 'json'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
+
+    compile 'jp.fkmsoft.libs:KiiLib-OkHttp:3.0.0'
+    compile 'jp.fkmsoft.libs:KiiLib-Java:3.0.0'
+    compile 'jp.fkmsoft.libs:KiiLib-Android-Entity:3.0.0'
+
+    compile 'com.jakewharton:butterknife:7.0.0'
+    compile 'jp.fkmsoft.libs:android-app-framework-v4:0.8.0'
 }
