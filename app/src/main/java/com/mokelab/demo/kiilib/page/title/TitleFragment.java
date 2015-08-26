@@ -15,6 +15,8 @@ import com.mokelab.demo.kiilib.MainActivity;
 import com.mokelab.demo.kiilib.R;
 import com.mokelab.demo.kiilib.app.login.LoginApp;
 import com.mokelab.demo.kiilib.app.login.impl.LoginAppImpl;
+import com.mokelab.demo.kiilib.app.signup.SignupApp;
+import com.mokelab.demo.kiilib.app.signup.impl.SignupAppImpl;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +31,7 @@ import jp.fkmsoft.libs.progress.ProgressDialogFragment;
 /**
  * Fragment for title page
  */
-public class TitleFragment extends Fragment implements LoginApp.UI {
+public class TitleFragment extends Fragment implements LoginApp.UI, SignupApp.UI {
     private static final int REQUEST_PROGRESS = 1000;
 
     @Bind(R.id.edit_login_email) EditText mLoginEmail;
@@ -39,6 +41,7 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
 
     private KiiAppAPI mAppAPI;
     private LoginApp mLoginApp;
+    private SignupApp mSignupApp;
 
     public static TitleFragment newInstance() {
         TitleFragment fragment = new TitleFragment();
@@ -66,6 +69,7 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
         MainActivity activity = (MainActivity) getActivity();
         mAppAPI = activity.getAppAPI();
         mLoginApp = new LoginAppImpl(new UIHolderImpl<>(this), mAppAPI);
+        mSignupApp = new SignupAppImpl(new UIHolderImpl<>(this), mAppAPI);
     }
 
     @Override
@@ -79,6 +83,11 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
     @OnClick(R.id.button_login)
     void loginClicked() {
         mLoginApp.login(mLoginEmail.getText().toString(), mLoginPassword.getText().toString());
+    }
+
+    @OnClick(R.id.button_signup)
+    void signupClicked() {
+        mSignupApp.signup(mSignupEmail.getText().toString(), mSignupPassword.getText().toString());
     }
 
 
@@ -105,5 +114,23 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
     @Override
     public void hideProgress() {
         FragmentUtils.dismissDialog(getFragmentManager(), Constants.TAG_PROGRESS);
+    }
+
+    @Override
+    public void showSignupProgress() {
+        ProgressDialogFragment dialog = ProgressDialogFragment.newInstance(this, REQUEST_PROGRESS,
+                getString(R.string.signup), getString(R.string.signup), null);
+        dialog.show(getFragmentManager(), Constants.TAG_PROGRESS);
+    }
+
+    @Override
+    public void notifyDoneSignup(AndroidKiiUser kiiUser) {
+        Log.v("Signup", "Done!");
+    }
+
+    @Override
+    public void showSignupError(KiiException e) {
+        Toast.makeText(getActivity(), e.getBody().toString(), Toast.LENGTH_LONG).show();
+        Log.v("Signup", "Error " + e.getBody().toString());
     }
 }
