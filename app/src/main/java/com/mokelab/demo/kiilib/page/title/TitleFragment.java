@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.mokelab.demo.kiilib.Constants;
 import com.mokelab.demo.kiilib.MainActivity;
 import com.mokelab.demo.kiilib.R;
 import com.mokelab.demo.kiilib.app.login.LoginApp;
@@ -19,14 +20,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.fkmsoft.android.framework.impl.UIHolderImpl;
+import jp.fkmsoft.android.framework.util.FragmentUtils;
 import jp.fkmsoft.libs.kiilib.apis.KiiException;
 import jp.fkmsoft.libs.kiilib.apis.impl.KiiAppAPI;
 import jp.fkmsoft.libs.kiilib.entities.android.AndroidKiiUser;
+import jp.fkmsoft.libs.progress.ProgressDialogFragment;
 
 /**
  * Fragment for title page
  */
 public class TitleFragment extends Fragment implements LoginApp.UI {
+    private static final int REQUEST_PROGRESS = 1000;
+
     @Bind(R.id.edit_login_email) EditText mLoginEmail;
     @Bind(R.id.edit_login_password) EditText mLoginPassword;
     @Bind(R.id.edit_signup_email) EditText mSignupEmail;
@@ -81,7 +86,9 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
 
     @Override
     public void showLoginProgress() {
-
+        ProgressDialogFragment dialog = ProgressDialogFragment.newInstance(this, REQUEST_PROGRESS,
+                getString(R.string.login), getString(R.string.login), null);
+        dialog.show(getFragmentManager(), Constants.TAG_PROGRESS);
     }
 
     @Override
@@ -97,6 +104,6 @@ public class TitleFragment extends Fragment implements LoginApp.UI {
 
     @Override
     public void hideProgress() {
-
+        FragmentUtils.dismissDialog(getFragmentManager(), Constants.TAG_PROGRESS);
     }
 }

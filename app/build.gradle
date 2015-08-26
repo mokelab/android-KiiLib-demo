@@ -41,4 +41,5 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:7.0.0'
     compile 'jp.fkmsoft.libs:android-app-framework-v4:0.8.0'
+    compile 'jp.fkmsoft.libs:ProgressDialogFragment-v4:1.0.0'
 }
