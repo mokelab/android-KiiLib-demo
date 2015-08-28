@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.mokelab.demo.kiilib.R;
+import com.mokelab.demo.kiilib.page.my.MyMemoFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
+import jp.fkmsoft.android.framework.util.FragmentUtils;
 
 /**
  * Fragment for main menu
@@ -49,5 +53,16 @@ public class MainMenuFragment extends Fragment {
         super.onDestroyView();
 
         ButterKnife.unbind(this);
+    }
+
+    // region UI event
+    @OnItemClick(R.id.grid)
+    void itemClicked(AdapterView<?> grid, View item, int position, long id) {
+        switch (position) {
+        case 0:
+            FragmentUtils.toNextFragment(getFragmentManager(), R.id.container,
+                    MyMemoFragment.newInstance(), true);
+            break;
+        }
     }
 }
