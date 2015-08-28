@@ -4,6 +4,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.mokelab.demo.kiilib.model.user.UserDAO;
+import com.mokelab.demo.kiilib.model.user.impl.UserDAOImpl;
+import com.mokelab.demo.kiilib.page.menu.MainMenuFragment;
 import com.mokelab.demo.kiilib.page.title.TitleFragment;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -39,8 +42,16 @@ public class MainActivity extends AppCompatActivity {
         mAppAPI = new KiiAppAPI(mKiiContext);
 
         if (savedInstanceState == null) {
-            FragmentUtils.toNextFragment(getSupportFragmentManager(), R.id.container,
-                    TitleFragment.newInstance(), false);
+            UserDAO dao = new UserDAOImpl(this);
+            String token = dao.loadToken();
+            if (token == null) {
+                FragmentUtils.toNextFragment(getSupportFragmentManager(), R.id.container,
+                        TitleFragment.newInstance(), false);
+            } else {
+                mKiiContext.setAccessToken(token);
+                FragmentUtils.toNextFragment(getSupportFragmentManager(), R.id.container,
+                        MainMenuFragment.newInstance(), false);
+            }
         }
     }
 

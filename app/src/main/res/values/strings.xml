@@ -7,4 +7,6 @@
     <string name="signup">Sign up</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="menu_label_my_memo">My memo</string>
+    <string name="menu_label_group">Group</string>
 </resources>

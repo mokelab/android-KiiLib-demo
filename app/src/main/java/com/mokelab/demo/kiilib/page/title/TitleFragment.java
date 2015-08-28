@@ -17,6 +17,8 @@ import com.mokelab.demo.kiilib.app.login.LoginApp;
 import com.mokelab.demo.kiilib.app.login.impl.LoginAppImpl;
 import com.mokelab.demo.kiilib.app.signup.SignupApp;
 import com.mokelab.demo.kiilib.app.signup.impl.SignupAppImpl;
+import com.mokelab.demo.kiilib.model.user.impl.UserDAOImpl;
+import com.mokelab.demo.kiilib.page.menu.MainMenuFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,7 +69,7 @@ public class TitleFragment extends Fragment implements LoginApp.UI, SignupApp.UI
 
         MainActivity activity = (MainActivity) getActivity();
         KiiAppAPI appAPI = activity.getAppAPI();
-        mLoginApp = new LoginAppImpl(new UIHolderImpl<>(this), appAPI);
+        mLoginApp = new LoginAppImpl(new UIHolderImpl<>(this), appAPI, new UserDAOImpl(activity));
         mSignupApp = new SignupAppImpl(new UIHolderImpl<>(this), appAPI);
     }
 
@@ -101,7 +103,8 @@ public class TitleFragment extends Fragment implements LoginApp.UI, SignupApp.UI
 
     @Override
     public void notifyDoneLogin(AndroidKiiUser kiiUser) {
-        Log.v("Login", "Done!");
+        FragmentUtils.toNextFragment(getFragmentManager(), R.id.container,
+                MainMenuFragment.newInstance(), false);
     }
 
     @Override

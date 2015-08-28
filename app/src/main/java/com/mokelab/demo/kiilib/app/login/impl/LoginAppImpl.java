@@ -1,6 +1,7 @@
 package com.mokelab.demo.kiilib.app.login.impl;
 
 import com.mokelab.demo.kiilib.app.login.LoginApp;
+import com.mokelab.demo.kiilib.model.user.UserDAO;
 
 import jp.fkmsoft.android.framework.UIHolder;
 import jp.fkmsoft.android.framework.base.BaseApp;
@@ -16,10 +17,12 @@ import jp.fkmsoft.libs.kiilib.entities.android.AndroidKiiUserDTO;
 public class LoginAppImpl extends BaseApp<LoginApp.UI> implements LoginApp {
 
     private final KiiAppAPI mAppAPI;
+    private final UserDAO mUserDAO;
 
-    public LoginAppImpl(UIHolder<UI> uiHolder, KiiAppAPI appAPI) {
+    public LoginAppImpl(UIHolder<UI> uiHolder, KiiAppAPI appAPI, UserDAO userDAO) {
         super(uiHolder);
         mAppAPI = appAPI;
+        mUserDAO = userDAO;
     }
 
     @Override
@@ -33,6 +36,8 @@ public class LoginAppImpl extends BaseApp<LoginApp.UI> implements LoginApp {
             public void onSuccess(String token, AndroidKiiUser kiiUser) {
                 UI ui = mUIHolder.get();
                 if (ui == null) { return; }
+
+                mUserDAO.saveToken(token);
 
                 ui.hideProgress();
                 ui.notifyDoneLogin(kiiUser);
