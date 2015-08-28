@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mokelab.demo.kiilib.R;
+import com.mokelab.demo.kiilib.model.memo.Memo;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,8 +33,8 @@ class MyMemoAdapter extends ArrayAdapter<AndroidKiiObject> {
         }
         AndroidKiiObject item = getItem(position);
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        holder.mTitleText.setText(item.optString("title", ""));
-        holder.mDescText.setText(item.optString("desc", ""));
+        holder.mTitleText.setText(item.optString(Memo.FIELD_TITLE, ""));
+        holder.mDescText.setText(item.optString(Memo.FIELD_DESCRIPTION, ""));
         return convertView;
     }
 

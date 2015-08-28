@@ -12,8 +12,10 @@ import com.squareup.okhttp.OkHttpClient;
 
 import jp.fkmsoft.android.framework.util.FragmentUtils;
 import jp.fkmsoft.libs.kiilib.apis.BucketAPI;
+import jp.fkmsoft.libs.kiilib.apis.ObjectAPI;
 import jp.fkmsoft.libs.kiilib.apis.impl.KiiAppAPI;
 import jp.fkmsoft.libs.kiilib.apis.impl.KiiBucketAPI;
+import jp.fkmsoft.libs.kiilib.apis.impl.KiiObjectAPI;
 import jp.fkmsoft.libs.kiilib.client.KiiHTTPClient;
 import jp.fkmsoft.libs.kiilib.entities.KiiContext;
 import jp.fkmsoft.libs.kiilib.entities.android.AndroidKiiContext;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private BucketAPI mBucketAPI;
     private OkHttpClient mClient;
     private Handler mHandler;
+    private ObjectAPI mObjectAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAppAPI = new KiiAppAPI(mKiiContext);
         mBucketAPI = new KiiBucketAPI(mKiiContext);
+        mObjectAPI = new KiiObjectAPI(mKiiContext);
 
         if (savedInstanceState == null) {
             UserDAO dao = new UserDAOImpl(this);
@@ -65,5 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
     public BucketAPI getBucketAPI() {
         return mBucketAPI;
+    }
+
+    public ObjectAPI getObjectAPI() {
+        return mObjectAPI;
     }
 }

@@ -10,4 +10,11 @@
     <string name="menu_label_my_memo">My memo</string>
     <string name="menu_label_group">Group</string>
     <string name="no_memo">No memo</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="action_save">Save</string>
+    <string name="create_memo">Create memo</string>
+    <string name="creating_memo">Creating memo</string>
+    <string name="create_memo_failed">Failed to create memo</string>
+    <string name="get_memo_failed">Failed to get memo</string>
 </resources>
