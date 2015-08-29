@@ -44,6 +44,7 @@ public class MyMemoAppImpl extends BaseApp<MyMemoApp.UI> implements MyMemoApp {
         try {
             json.put(Memo.FIELD_TITLE, title);
             json.put(Memo.FIELD_DESCRIPTION, description);
+            json.put(Memo.FIELD_DONE, false);
         } catch (JSONException ignore) {
             // nop
         }
@@ -82,7 +83,7 @@ public class MyMemoAppImpl extends BaseApp<MyMemoApp.UI> implements MyMemoApp {
     @Override
     public void getAll() {
         KiiBucket bucket = new AndroidKiiBucket(new AndroidKiiUser("me", null), BUCKET_NAME);
-        QueryParams params = new QueryParams(KiiClause.all());
+        QueryParams params = new QueryParams(KiiClause.equals(Memo.FIELD_DONE, false));
         params.sortByDesc("_modified");
 
         mBucketAPI.query(bucket, params, AndroidKiiObjectDTO.getInstance(), new BucketAPI.QueryCallback<AndroidKiiObject>() {
